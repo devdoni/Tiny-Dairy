@@ -1,0 +1,62 @@
+:root{
+    --btn-fg: #ffffff;
+    --btn-bg: var(--brand);
+    --btn-hover: brightness(1.05);
+    --btn-ring: var(--brand);
+}
+
+/* ===== 공통 ===== */
+.btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--font), 'Noto Sans KR', system-ui, sans-serif;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
+    border: 0;
+    transition: transform .12s ease, filter .12s ease, background-color .12s ease, color .12s ease;
+}
+.pill{ border-radius: 999px; }
+.block{ width: 100%; }
+
+/* ===== 사이즈 ===== */
+.sm{ padding: 8px 12px; font-size: 14px; }
+.md{ padding: 12px 16px; font-size: 16px; }
+.lg{ padding: 16px 24px; font-size: 18px; }
+
+/* ===== 상태 ===== */
+.btn:focus-visible{
+    outline: 2px solid var(--btn-ring);
+    outline-offset: 2px;
+}
+
+.btn[disabled]{ opacity: .6; cursor: not-allowed; }
+
+/* ===== 변형 ===== */
+.primary{
+    background: var(--btn-bg);
+    color: var(--btn-fg);
+}
+.primary:hover{ filter: var(--btn-hover); }
+
+.ghost{
+    background: transparent;
+    color: var(--fg);
+}
+.ghost:hover{ background: var(--hover); }
+
+.outline{
+    background: transparent;
+    color: var(--fg);
+    border: 1px solid rgba(0,0,0,.12);
+}
+.outline:hover{ background: var(--hover); }
+
+.danger{
+    background: #ef4444;
+    color: #fff;
+}
+.danger:hover{ filter: var(--btn-hover); }

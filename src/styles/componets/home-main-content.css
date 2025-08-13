@@ -1,0 +1,38 @@
+/* ===== 메인 컨텐츠 ===== */
+.home-main-content {
+    background-color: #F9F7F9;
+}
+
+.home-main-content-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 150px - 100px);
+}
+
+/* ===== 배너 버튼 ===== */
+.banner-btn{
+    position: absolute;
+    left: 50.6%;
+    bottom: 22%;
+    transform: translateX(-50%);
+    z-index: 2;
+    padding: 20px 30px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--brand);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0,0,0,.08);
+    transition: transform .12s ease, filter .12s ease;
+}
+
+.banner-btn:hover{
+    filter: brightness(1.05);
+}
+
+.banner-btn:active{
+    transform: translateX(-50%) translateY(1px);
+}
