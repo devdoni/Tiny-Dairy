@@ -28,7 +28,7 @@ const SignUpForm = () => {
         else if (v.nickname.length < 2) e.nickname = "2글자 이상 입력해주세요.";
 
         if (!v.password) e.password = "비밀번호을 입력해주세요.";
-        else if (v.password.length < 8) e.password = "8자 이상 입력해주세요."
+        else if (v.password.length < 6) e.password = "6자 이상 입력해주세요."
 
         if (!v.password_again) e.password_again = "비밀번호를 한번 더 입력해주세요.";
         else if (v.password !== v.password_again) e.password_again = "비밀번호가 일치하지 않습니다.";

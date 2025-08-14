@@ -1,0 +1,37 @@
+
+.mood-picker {
+    font-family: var(--font), arial, sans-serif;
+
+}
+.mood-picker ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.mood-title {
+    padding: 50px 0 50px 0;
+    text-align: center;
+    font-size: 2em
+}
+
+.mood-item {
+    background: rgba(245, 153, 84, 0.47);
+    line-height: 100px;
+    width: 200px;
+    height: 100px;
+    text-align: center;
+    min-width: 150px;
+    display: inline-block;
+    font-size: 24px;
+    border-radius: 999px;
+}
+
+.mood-item:hover {
+    background: rgba(252, 126, 35, 0.65);
+}
+
+.mood-active {
+    background: rgba(252, 126, 35, 0.65);
+}

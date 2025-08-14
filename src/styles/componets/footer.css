@@ -1,6 +1,5 @@
 /* ===== 푸터 ===== */
 footer {
-    position: absolute;
     background: var(--bg);
     bottom: 0;
     left: 0;

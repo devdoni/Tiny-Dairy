@@ -1,4 +1,4 @@
-import {getDateTime} from "./utils";
+import {getDateTime, getStringDateTime} from "./utils";
 import bcrypt from "bcryptjs";
 
 export const USER_DB_IN_LOCAL_STORAGE = "UserDB";
@@ -16,6 +16,20 @@ export const setUserDB = (userObj) => {
   console.log("setUserDB()");
   localStorage.setItem(USER_DB_IN_LOCAL_STORAGE, JSON.stringify(userObj));
 }
+
+
+// UserDiaryDB Getter
+export const getUserDairyDB = () => {
+  console.log("getUserDairyDB()");
+  return JSON.parse(localStorage.getItem(USER_DAIRY_DB_IN_LOCAL_STORAGE));
+}
+
+// UserDiaryDB setter
+export const setUserDiaryDB = (dairyObj) => {
+  console.log("getUserDairyDB()");
+  localStorage.setItem(USER_DAIRY_DB_IN_LOCAL_STORAGE, JSON.stringify(dairyObj));
+}
+
 
 // 로컬스토리지를 이용한 회원가입 로직
 export async function signUpUser (id, password, nickname) {
@@ -79,16 +93,26 @@ export async function loginUser (id, password) {
   return await bcrypt.compare(password, savedObj[id].password);
 }
 
-// UserDiaryDB Getter
-export const getUserDairyDB = () => {
-  console.log("getUserDairyDB()");
-  return JSON.parse(localStorage.getItem(USER_DAIRY_DB_IN_LOCAL_STORAGE));
-}
+// 로컬스토리지 활용 일기 저장 로직
+export function userDairySaved(dairyObj) {
+  console.log("userDairySaved()");
 
-// UserDiaryDB setter
-export const setUserDiaryDB = (userObj) => {
-  console.log("getUserDairyDB()");
-  localStorage.setItem(USER_DAIRY_DB_IN_LOCAL_STORAGE, JSON.stringify(userObj));
+  let newDairyObj = getUserDairyDB();
+
+  if (newDairyObj === null && dairyObj === null) return false;
+
+  let key = getStringDateTime();
+  newDairyObj[getLoginedSessionId()][key] = {
+    "key": key,
+    "title": dairyObj.title,
+    "body": dairyObj.body,
+    "mood": dairyObj.mood,
+    "regDate": getDateTime(),
+  }
+
+  setUserDiaryDB(newDairyObj);
+
+  return true;
 }
 
 // 나의 정보를 가져오는 함수
@@ -100,8 +124,7 @@ export const getMyInfo = (uId) => {
   }
 
   let userDB = (getUserDB());
-  let MyInfo = userDB[uId];
-  return MyInfo;
+  return userDB[uId];
 
 }
 
@@ -113,6 +136,15 @@ export const setMyInfo = (uId, myInfo) => {
   UserInfos[uId] = myInfo;
 
   setUserDB(UserInfos);
+}
+
+export const getCurrentUserDiary = () => {
+  console.log('getCurrentUserDiary()');
+  const id = getLoginedSessionId();
+
+  const userDairyDB = getUserDairyDB();
+
+  return userDairyDB[id];
 }
 
 

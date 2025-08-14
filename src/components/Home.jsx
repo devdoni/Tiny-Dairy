@@ -1,8 +1,11 @@
 import React from "react"
 import "../styles/componets/home-main-content.css";
 import Button from "./ui/Button";
+import {useNavigate} from "react-router-dom";
 
-const HomeMainContent = () => {
+const Home = () => {
+  const navigate = useNavigate();
+
   return (
     <main className="home-main-content">
       <div className="home-main-content-container">
@@ -12,10 +15,11 @@ const HomeMainContent = () => {
           size="lg"
           variant="primary"
           children="일기 작성하기"
+          onClick={() => navigate("/write")}
         />
       </div>
     </main>
   );
 }
 
-export default HomeMainContent;
+export default Home;

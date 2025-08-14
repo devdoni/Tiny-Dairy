@@ -9,13 +9,14 @@
     justify-content: center;
     align-items: center;
     height: calc(100vh - 150px - 100px);
+    overflow: hidden;
 }
 
 /* ===== 배너 버튼 ===== */
 .banner-btn{
     position: absolute;
     left: 50.6%;
-    bottom: 22%;
+    bottom: 10%;
     transform: translateX(-50%);
     z-index: 2;
     padding: 20px 30px;
