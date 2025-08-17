@@ -147,6 +147,21 @@ export const getCurrentUserDiary = () => {
   return userDairyDB[id];
 }
 
+export const getSelectedDiary = (key) => {
+  console.log('getSelectedDiary()');
+
+  const id = getLoginedSessionId();
+
+  const userDairyDB = getUserDairyDB();
+
+  if (userDairyDB[id][key] !== undefined) {
+    return userDairyDB[id][key];
+  } else {
+    return null;
+  }
+
+}
+
 
 // 세션 스토리지에서 로그인 세션을 가져오는 함수
 export const getLoginedSessionId = () => {

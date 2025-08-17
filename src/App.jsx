@@ -8,6 +8,7 @@ import LoginForm from "./components/LoginForm";
 import {getLoginedSessionId} from "./utils/userStorage";
 import DiaryWrite from "./components/DiaryWrite";
 import DiaryList from "./components/DiaryList";
+import DiaryDetail from "./components/DiaryDetail";
 
 const App = () => {
 
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/login" element={<LoginForm setIsLoggedIn={setIsLoggedIn} />}></Route>
         <Route path="/write" element={<DiaryWrite />} />
         <Route path="/list" element={<DiaryList />}></Route>
+        <Route path="detail/:key" element={<DiaryDetail />}/>
       </Routes>
       <Footer />
     </>

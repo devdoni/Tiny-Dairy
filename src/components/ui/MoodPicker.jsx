@@ -1,16 +1,7 @@
-import React, {useEffect} from "react"
+import React from "react"
 import "../../styles/componets/ui/mood-picker.css";
-
+import moods from "../../data/mood.json";
 const MoodPicker = ({ setDairyValue, dairyValue }) => {
-
-
-  const moods = [
-    { value: 5, label: "신남", emoji: "🤩" },
-    { value: 4, label: "좋음", emoji: "😊" },
-    { value: 3, label: "그냥 그래", emoji: "😐" },
-    { value: 2, label: "살짝 다운", emoji: "😕" },
-    { value: 1, label: "우울", emoji: "😢" },
-  ];
 
   const handlePick = (val) => {
     setDairyValue(prev => ({ ...prev, "mood": val }));

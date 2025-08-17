@@ -1,0 +1,85 @@
+.dairy-list-content {
+    text-align: center;
+    height: var(--basic-height);
+}
+
+.diary-content-title {
+    margin: 20px auto;
+    width: 1000px;
+    font-size: 2em;
+    font-family: var(--font), sans-serif;
+    border-bottom: 2px double #dddddd;
+    padding-bottom: 10px;
+}
+.diary-list-menu {
+    font-family: var(--font), sans-serif;
+    font-size: 1.5em;
+    margin: 0 auto;
+    padding-bottom: 10px;
+    width: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 100px;
+}
+.diary-list-menu-item {
+    width: 100px;
+    border-radius: 10px;
+}
+.diary-list-menu-item:hover {
+    background-color: rgba(9, 90, 255, 0.83);
+    color: #fff;
+}
+
+.list-menu-item-selected {
+    background-color: rgba(9, 90, 255, 0.83);
+    color: #fff;
+}
+
+/* 테이블 스타일 */
+.diary-list-table {
+    font-family: var(--font), sans-serif;
+    margin: 10px auto;
+    width: 1000px;
+    border: 1px solid #dddddd;
+    border-radius: 10px;
+}
+.diary-list-header-item {
+    font-size: 1.2em;
+    border-bottom: 1px double #dddddd;
+    border-right: 1px double #dddddd;
+}
+
+.diary-list-header-item:last-child {
+    border-right: none;
+}
+
+.diary-list-body-item {
+    height: 50px;
+    font-size: 1em;
+    border-bottom: 1px double #dddddd;
+    border-right: 1px double #dddddd;
+}
+
+.diary-list-body-item:nth-child(4) {
+    color: #2346ff;
+}
+.diary-list-body-item:nth-child(5) {
+    color: #ff2323;
+}
+
+.diary-list-body-item:last-child {
+    border-right: none;
+}
+
+.diary-list-body tr:last-child td {
+    border-bottom: none;
+}
+
+.diary-list-body-tr:hover {
+    background-color: rgba(143, 143, 143, 0.2);
+}
+
+.link-button:hover {
+    text-decoration: underline;
+}
