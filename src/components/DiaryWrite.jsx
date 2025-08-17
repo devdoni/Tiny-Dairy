@@ -31,6 +31,8 @@ const DiaryWrite = () => {
 
   }
 
+  const [titleWriteFlag, setTitleWriteFlag] = useState(false);
+
   const writeBtnHandle = () => {
     if (dairyValue.title === "") {
       alert('일기 제목을 입력해주세요.');
@@ -41,13 +43,16 @@ const DiaryWrite = () => {
     } else {
       if (userDairySaved(dairyValue)) {
         alert('일기를 저장이 완료되었습니다.');
+        navigate("/list")
 
       } else {
         alert('죄송합니다 일기 저장중 오류가 발생했습니다.');
       }
     }
+  }
 
-
+  const titleKeyDownHandle = (e) => {
+    setTitleWriteFlag(true);
   }
 
   return (
@@ -58,12 +63,20 @@ const DiaryWrite = () => {
       {dairyValue.mood !== "" ? (
         <div className="dairy-write-box">
           <p className="dairy-title">오늘 하루를 제목으로 표현 한다면?</p>
-          <Input placeholder="일기 제목을 입력해주세요" onChange={writeValueChangeHandle} value={dairyValue.title} name="title" className="dairy-title-input"/>
+          <Input placeholder="일기 제목을 입력해주세요" onChange={writeValueChangeHandle} value={dairyValue.title} name="title" className="dairy-title-input" onKeyDown={titleKeyDownHandle}/>
+          {
+            titleWriteFlag ? (
+              <>
+                <p className="dairy-title">오늘 하루에 대해 적어볼까요?</p>
+                <textarea placeholder="일기 내용을 입력해주세요" onChange={writeValueChangeHandle} name="body"
+                          value={dairyValue.body} className="dairy-title-textarea"/><br/>
 
-          <p className="dairy-title">오늘 하루에 대해 적어볼까요?</p>
-          <textarea placeholder="일기 내용을 입력해주세요" onChange={writeValueChangeHandle} name="body" value={dairyValue.body} className="dairy-title-textarea"/><br />
+                <Button pill={true} size="lg" onClick={writeBtnHandle} children="일기 작성하기" on
+                        className="dairy-save-button"/>
 
-          <Button pill={true} size="lg" onClick={writeBtnHandle} children="일기 작성하기" on className="dairy-save-button"/>
+              </>
+            ) : null
+          }
 
         </div>
       ) : null}

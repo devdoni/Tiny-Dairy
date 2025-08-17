@@ -1,7 +1,7 @@
 import React, { forwardRef, useId } from "react";
 
 const Input = forwardRef(function Input(
-  { label, error, id, className = "", required, value, ...rest },
+  { label, error, id, className = "", onKeyDown, required, value, ...rest },
   ref
 ) {
   const uid = useId();
@@ -14,6 +14,7 @@ const Input = forwardRef(function Input(
       className={className}
       required={required}
       value={value}
+      onKeyDown={onKeyDown}
       aria-invalid={!!error || undefined}
       aria-describedby={error ? `${inputId}-err` : undefined}
       {...rest}
