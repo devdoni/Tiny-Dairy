@@ -1,32 +1,38 @@
 import React, {useEffect, useState} from "react"
-import {getCurrentUserDiary, getLoginedSessionId} from "../utils/userStorage";
+import {getCurrentUserDiary } from "../utils/userStorage";
 import {useNavigate} from "react-router-dom";
 import "../styles/componets/diary-list.css";
 import moods from "../data/mood.json";
-import Button from "./ui/Button";
+import {useAuth} from "../context/AuthContext";
+import log from "loglevel";
 
 const DairyList = () => {
 
+  const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
 
   const [dairyList, setDairyList] = useState([]);
   const [selectedMenu, setSelectedMenu] = useState("all");
 
   useEffect(() => {
-    if (getLoginedSessionId() === "") {
+    log.debug("[DairyList] useEffect()");
+
+    if (!isAuthenticated) {
       alert('로그인 후 이용가능한 서비스입니다.');
       navigate("/login");
+
     } else {
-      let currentUserDiary = getCurrentUserDiary();
+      let currentUserDiary = getCurrentUserDiary(user);
 
       if (currentUserDiary !== null) {
-        const diaryArray = Object.entries(currentUserDiary);
-        setDairyList(diaryArray);
+        setDairyList(Object.entries(currentUserDiary));
       }
     }
-  }, []);
+  }, [isAuthenticated, navigate, user]);
 
   const dairyItemClickHandle = (selectedDairy) => {
+    log.debug("[DairyList] dairyItemClickHandle()");
+
     navigate(`/detail/${selectedDairy.key}`);
   }
 

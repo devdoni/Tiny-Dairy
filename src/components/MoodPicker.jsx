@@ -1,11 +1,14 @@
 import React from "react"
-import "../../styles/componets/ui/mood-picker.css";
-import moods from "../../data/mood.json";
+import "../styles/componets/mood-picker.css";
+import moods from "../data/mood.json";
+import log from "loglevel";
+
 const MoodPicker = ({ setDairyValue, dairyValue }) => {
 
   const readOnly = !setDairyValue;
 
   const handlePick = (val) => {
+    log.debug("[MoodPicker] handlePick()");
     setDairyValue?.(prev => ({ ...prev, "mood": val }));
   }
 

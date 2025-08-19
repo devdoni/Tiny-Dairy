@@ -1,14 +1,16 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Link, useNavigate} from "react-router-dom";
 import "../styles/componets/header.css";
-import { setLoginedSessionId } from "../utils/userStorage";
-const Header = ({ isLoggedIn, setIsLoggedIn}) => {
+import {useAuth} from "../context/AuthContext";
+import log from "loglevel";
+const Header = () => {
 
+  const { logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const logoutBtnClickHandler = () => {
-    setIsLoggedIn(false);
-    setLoginedSessionId("");
+    log.debug("[Header] logoutBtnClickHandler()");
+    logout();
     alert('로그아웃이 완료되었습니다.');
     navigate("/");
 
@@ -25,7 +27,7 @@ const Header = ({ isLoggedIn, setIsLoggedIn}) => {
             <Link to="/write"><li className="menu-item">일기 작성</li></Link>
             <Link to="/list"><li className="menu-item">일기 목록</li></Link>
             {
-              isLoggedIn ? (
+              isAuthenticated ? (
                 <>
                   <Link to="/">
                     <li className="menu-item">내정보</li>

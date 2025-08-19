@@ -1,21 +1,25 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import { getLoginedSessionId, getSelectedDiary} from "../utils/userStorage";
-import MoodPicker from "./ui/MoodPicker";
+import { getSelectedDiary } from "../utils/userStorage";
+import MoodPicker from "./MoodPicker";
 import "../styles/componets/diary-detail.css";
 import Button from "./ui/Button";
+import log from "loglevel";
+import {useAuth} from "../context/AuthContext";
 
 const DiaryDetail = () => {
 
   const { key } = useParams();
-
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   const [selectedDairy, setSelectedDairy] = useState({});
 
 
   useEffect(() => {
-    if (getLoginedSessionId() === "") {
+    log.debug("[DiaryDetail] useEffect()");
+
+    if (!isAuthenticated) {
       alert('로그인 후 이용가능한 서비스입니다.');
       navigate("/login");
     } else {
@@ -28,7 +32,7 @@ const DiaryDetail = () => {
         navigate("/");
       }
     }
-  }, []);
+  }, [key, isAuthenticated, navigate]);
 
 
   return (
@@ -39,7 +43,7 @@ const DiaryDetail = () => {
         </p>
         <MoodPicker dairyValue={selectedDairy}/>
         {
-          selectedDairy !== null ? (
+          selectedDairy ? (
             <>
               <div className="diary-header">
                 {selectedDairy.title}

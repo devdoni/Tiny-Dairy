@@ -4,6 +4,7 @@ import "../styles/componets/signup-form.css";
 import Button from "./ui/Button";
 import {Link, useNavigate} from "react-router-dom";
 import {signUpUser} from "../utils/userStorage";
+import log from "loglevel";
 
 
 const SignUpForm = () => {
@@ -37,17 +38,20 @@ const SignUpForm = () => {
     }
 
     const onChange = (e) => {
+        log.debug("[SignUpForm] onChange()");
         const { name, value } = e.target;
         setUserValues({ ...userValues, [name]: value });
     };
 
     const onBlur = (e) => {
+        log.debug("[SignUpForm] onBlur()");
         const { name } = e.target;
         setTouched((s) => ({ ...s, [name]: e.target.value }));
         SetErrors(validate({ ...userValues, [name]: e.target.value }));
     }
 
     const onSubmit = async (e) => {
+        log.debug("[SignUpForm] onSubmit()");
         e.preventDefault();
         const nextErrors = validate(userValues);
         SetErrors(nextErrors);
@@ -61,10 +65,14 @@ const SignUpForm = () => {
             await signUpUser(userValues.id, userValues.password, userValues.nickname);
 
             alert("회원가입이 완료되었습니다 로그인 페이지로 이동합니다.");
+            log.debug("회원가입 완료");
             navigate("/login");
 
         } catch (error) {
-            alert('죄송합니다 회원가입 시도중 오류가 발생했습니다.')
+            log.warn("회원가입중 오류 발생: ", error);
+
+            alert('죄송합니다 회원가입 시도중 오류가 발생했습니다.');
+            navigate("/");
         }
 
     };

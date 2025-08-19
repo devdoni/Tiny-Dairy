@@ -1,22 +1,29 @@
 import React, {useEffect, useState} from "react"
-import {getLoginedSessionId, userDairySaved} from "../utils/userStorage";
+import { userDairySaved } from "../utils/userStorage";
 import {useNavigate} from "react-router-dom";
 import Input from "./ui/Input";
 import "../styles/componets/diary-write.css";
-import MoodPicker from "./ui/MoodPicker";
+import MoodPicker from "./MoodPicker";
 import Button from "./ui/Button";
+import {useAuth} from "../context/AuthContext";
+import log from "loglevel";
 
 const DiaryWrite = () => {
 
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (getLoginedSessionId() === "") {
+    log.debug("[DiaryWrite] useEffect()");
+
+    if (!isAuthenticated) {
       alert('로그인 후 이용가능한 서비스입니다.');
       navigate("/login");
     }
-  });
 
+  }, [navigate, isAuthenticated]);
+
+  const [titleWriteFlag, setTitleWriteFlag] = useState(false);
   const [dairyValue, setDairyValue] = useState({
     "mood": "",
     "title": "",
@@ -26,14 +33,17 @@ const DiaryWrite = () => {
   });
 
   const writeValueChangeHandle = (e) => {
+    log.debug("[DiaryWrite] writeValueChangeHandle()");
+
     const { name, value } = e.target;
     setDairyValue({...dairyValue, [name]: value });
 
   }
 
-  const [titleWriteFlag, setTitleWriteFlag] = useState(false);
 
   const writeBtnHandle = () => {
+    log.debug("[DiaryWrite] writeBtnHandle()");
+
     if (dairyValue.title === "") {
       alert('일기 제목을 입력해주세요.');
 
@@ -52,6 +62,8 @@ const DiaryWrite = () => {
   }
 
   const titleKeyDownHandle = (e) => {
+    log.debug("[DiaryWrite] titleKeyDownHandle()");
+
     setTitleWriteFlag(true);
   }
 
@@ -68,11 +80,19 @@ const DiaryWrite = () => {
             titleWriteFlag ? (
               <>
                 <p className="dairy-title">오늘 하루에 대해 적어볼까요?</p>
-                <textarea placeholder="일기 내용을 입력해주세요" onChange={writeValueChangeHandle} name="body"
-                          value={dairyValue.body} className="dairy-title-textarea"/><br/>
+                <textarea
+                  placeholder="일기 내용을 입력해주세요"
+                  onChange={writeValueChangeHandle}
+                  name="body"
+                  value={dairyValue.body}
+                  className="dairy-title-textarea"/><br/>
 
-                <Button pill={true} size="lg" onClick={writeBtnHandle} children="일기 작성하기" on
-                        className="dairy-save-button"/>
+                <Button
+                  pill={true}
+                  size="lg"
+                  onClick={writeBtnHandle}
+                  children="일기 작성하기"
+                  className="dairy-save-button"/>
 
               </>
             ) : null

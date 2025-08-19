@@ -3,10 +3,13 @@ import Input from "./ui/Input";
 import "../styles/componets/login-form.css";
 import Button from "./ui/Button";
 import {Link, useNavigate} from "react-router-dom";
-import {loginUser, setLoginedSessionId} from "../utils/userStorage";
+import {loginUser} from "../utils/userStorage";
+import {useAuth} from "../context/AuthContext";
+import log from "loglevel";
 
-const LoginForm = ({ setIsLoggedIn }) => {
+const LoginForm = () => {
 
+    const { login }= useAuth();
     const navigate = useNavigate();
     const [userValues, setUserValues] = useState({
         id: "",
@@ -17,6 +20,8 @@ const LoginForm = ({ setIsLoggedIn }) => {
     const [touched, setTouched] = useState({});
 
     const validate = (v) => {
+        log.debug("[LoginForm] validate()");
+
         const e = {};
         if (!v.id) e.id = "아이디를 입력해주세요.";
         if (!v.password) e.password = "비밀번호을 입력해주세요.";
@@ -25,17 +30,23 @@ const LoginForm = ({ setIsLoggedIn }) => {
     }
 
     const onChange = (e) => {
+        log.debug("[LoginForm] onChange()");
+
         const { name, value } = e.target;
         setUserValues({ ...userValues, [name]: value });
     };
 
     const onBlur = (e) => {
+        log.debug("[LoginForm] onBlur()");
+
         const { name } = e.target;
         setTouched((s) => ({ ...s, [name]: e.target.value }));
         SetErrors(validate({ ...userValues, [name]: e.target.value }));
     }
 
     const onSubmit = async (e) => {
+        log.debug("[LoginForm] onSubmit()");
+
         e.preventDefault();
         const nextErrors = validate(userValues);
         SetErrors(nextErrors);
@@ -48,14 +59,16 @@ const LoginForm = ({ setIsLoggedIn }) => {
             let result = await loginUser(userValues.id, userValues.password)
             if (result) {
                 alert('로그인이 완료되었습니다.');
-                setLoginedSessionId(userValues.id);
-                setIsLoggedIn(true);
+                login(userValues.id);
                 navigate("/");
             } else {
                 alert('아이디 또는 비밀번호가 일치하지 않습니다.');
             }
         } catch (error) {
-            console.log('로그인 시도중 오류가 발생했습니다.');
+            log.warn('로그인 시도중 오류가 발생: ', error);
+
+            alert('죄송합니다 로그인 시도중 오류가 발생했습니다.');
+            navigate("/");
         }
 
     };
