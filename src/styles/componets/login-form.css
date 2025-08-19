@@ -22,7 +22,7 @@
     font-weight: 400;
     letter-spacing: -0.01em;
     color: var(--fg);
-    font-family: var(--font), 'Noto Sans KR', system-ui, sans-serif;
+    font-family: var(--font), sans-serif;
 }
 
 .login-form{

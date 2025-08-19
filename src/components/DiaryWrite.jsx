@@ -10,7 +10,7 @@ import log from "loglevel";
 
 const DiaryWrite = () => {
 
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,7 +23,10 @@ const DiaryWrite = () => {
 
   }, [navigate, isAuthenticated]);
 
+  // 제목 작성 감지 Flag
   const [titleWriteFlag, setTitleWriteFlag] = useState(false);
+
+  // 유저의 다이어리 정보를 저장하는 State
   const [dairyValue, setDairyValue] = useState({
     "mood": "",
     "title": "",
@@ -32,15 +35,16 @@ const DiaryWrite = () => {
     "modDate": ""
   });
 
+  // 일기 작성내용 체인지 핸들러
   const writeValueChangeHandle = (e) => {
     log.debug("[DiaryWrite] writeValueChangeHandle()");
 
     const { name, value } = e.target;
     setDairyValue({...dairyValue, [name]: value });
-
   }
 
 
+  // 일기 작성버튼 클릭 핸들러
   const writeBtnHandle = () => {
     log.debug("[DiaryWrite] writeBtnHandle()");
 
@@ -51,7 +55,7 @@ const DiaryWrite = () => {
       alert('일기 내용을 입력해주세요.');
 
     } else {
-      if (userDairySaved(dairyValue)) {
+      if (userDairySaved(dairyValue, user)) {
         alert('일기를 저장이 완료되었습니다.');
         navigate("/list")
 
@@ -61,6 +65,7 @@ const DiaryWrite = () => {
     }
   }
 
+  // 일기 제목 작성 키다운 핸들러
   const titleKeyDownHandle = (e) => {
     log.debug("[DiaryWrite] titleKeyDownHandle()");
 

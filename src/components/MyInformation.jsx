@@ -9,7 +9,7 @@ import log from "loglevel";
 
 const MyInformation = () => {
 
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, modifyUser } = useAuth();
   const navigate = useNavigate();
 
   const [userInfo, setUserInfo] = useState(null);
@@ -20,7 +20,6 @@ const MyInformation = () => {
     "regDate": ""
   });
 
-  const [fixFlag, setFixFlag] = useState(false);
 
   useEffect(() => {
     log.debug("컴포넌트 마운트");
@@ -28,7 +27,7 @@ const MyInformation = () => {
       alert('로그인 후 이용가능한 서비스입니다.');
       navigate('/login');
     } else {
-      const info = getMyInfo(user);
+      const info = getMyInfo(user.id);
       setUserInfo(info);
       setNewUserInfo({
         id: info?.id ?? "",
@@ -38,7 +37,7 @@ const MyInformation = () => {
       });
     }
 
-  }, [navigate, isAuthenticated, user, fixFlag]);
+  }, [navigate, isAuthenticated, user]);
 
   const nicknameChangeHandler = (e) => {
     log.debug("[MyInformation] nicknameChangeHandler");
@@ -63,8 +62,9 @@ const MyInformation = () => {
 
         if (result) {
           alert('정보수정이 완료되었습니다.');
-          navigate('/myinfo');
-          setFixFlag(prev => !prev);
+          modifyUser({ nickname: newUserInfo.nickname });
+          navigate('/');
+
         } else {
           alert('죄송합니다 정보수정 처리중 오류가 발생했습니다.');
           navigate('/');

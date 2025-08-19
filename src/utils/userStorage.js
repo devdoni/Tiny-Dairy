@@ -4,7 +4,6 @@ import log from "loglevel";
 
 export const USER_DB_IN_LOCAL_STORAGE = "UserDB";
 export const USER_DAIRY_DB_IN_LOCAL_STORAGE = "UserDiaryDB";
-const SESSION_STORAGE_KEY = 'LOGGED_IN_SESSION_ID';
 
 // UserDB Getter
 export const getUserDB = () => {
@@ -22,6 +21,7 @@ export const setUserDB = (userObj) => {
 // UserDiaryDB Getter
 export const getUserDairyDB = () => {
   log.debug("[userStorage] getUserDairyDB()");
+
   return JSON.parse(localStorage.getItem(USER_DAIRY_DB_IN_LOCAL_STORAGE));
 }
 
@@ -82,20 +82,37 @@ export async function signUpUser (id, password, nickname) {
 // 로컬스토리지 활용 로그인 로직
 export async function loginUser (id, password) {
   log.debug("[userStorage] loginUser()");
-
+  
+  
+  if (!id || !password) return false;
+  log.debug("유저 오브젝트 체크");
   const userObj = localStorage.getItem(USER_DB_IN_LOCAL_STORAGE);
 
-  if (userObj === null) return false;
+  if (!userObj) return false;
 
-  const savedObj = JSON.parse(userObj);
+  let savedObj
+  try {
+    savedObj = JSON.parse(userObj);
 
-  if (savedObj[id].id !== id) return false;
+  } catch (err) {
+    log.warn(`[userStorage] loginUser() Object Error - ${err}`);
+    return false;
+  }
 
-  return await bcrypt.compare(password, savedObj[id].password);
+  let user = savedObj?.[id];
+  if (!user) return false;
+
+  try {
+    return await bcrypt.compare(password, user.password);
+
+  } catch (err) {
+    log.warn(`[userStorage] loginUser() Hash Error - ${err}`);
+    return false;
+  }
 }
 
 // 로컬스토리지 활용 일기 저장 로직
-export function userDairySaved(dairyObj) {
+export function userDairySaved(dairyObj, user) {
   log.debug("[userStorage] userDairySaved()");
 
   let newDairyObj = getUserDairyDB();
@@ -103,7 +120,7 @@ export function userDairySaved(dairyObj) {
   if (newDairyObj === null && dairyObj === null) return false;
 
   let key = getStringDateTime();
-  newDairyObj[getLoginedSessionId()][key] = {
+  newDairyObj[user.id][key] = {
     "key": key,
     "title": dairyObj.title,
     "body": dairyObj.body,
@@ -121,7 +138,7 @@ export const getMyInfo = (uId) => {
   log.debug("[userStorage] getMyInfo()");
 
   if (getUserDB() === null) {
-    return undefined;
+    return null;
   }
 
   let userDB = (getUserDB());
@@ -142,6 +159,21 @@ export const setMyInfo = (newMyInfo) => {
   return true;
 }
 
+
+export const getUserNickname = (id) => {
+  log.debug("[userStorage] getUserNickname()");
+
+  let userDB = getUserDB();
+
+  if (userDB === null) {
+    return null;
+
+  } else {
+    return userDB[id].nickname;
+  }
+
+
+}
 export const getCurrentUserDiary = (id) => {
   log.debug("[userStorage] getCurrentUserDiary()");
 
@@ -150,35 +182,17 @@ export const getCurrentUserDiary = (id) => {
   return userDairyDB[id];
 }
 
-export const getSelectedDiary = (key) => {
+export const getSelectedDiary = (key, user) => {
   log.debug("[userStorage] getSelectedDiary()");
-
-  const id = getLoginedSessionId();
 
   const userDairyDB = getUserDairyDB();
 
-  if (userDairyDB[id][key] !== undefined) {
-    return userDairyDB[id][key];
+  if (userDairyDB[user.id][key] !== undefined) {
+    return userDairyDB[user.id][key];
+
   } else {
     return null;
   }
 
 }
 
-// 세션 스토리지에서 로그인 세션을 가져오는 함수
-export const getLoginedSessionId = () => {
-  log.debug("[userStorage] getLoginedSessionId()");
-  const sessionId = sessionStorage.getItem(SESSION_STORAGE_KEY) || '';
-
-  return sessionId;
-}
-
-// 세션 스토리지에 세션을 저장하는 함수
-export const setLoginedSessionId = (id = '') => {
-  log.debug("[userStorage] setLoginedSessionId()");
-  if (id) {
-    sessionStorage.setItem(SESSION_STORAGE_KEY, id);
-  } else {
-    sessionStorage.removeItem(SESSION_STORAGE_KEY);
-  }
-}

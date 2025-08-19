@@ -11,7 +11,7 @@ const DiaryDetail = () => {
 
   const { key } = useParams();
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
   const [selectedDairy, setSelectedDairy] = useState({});
 
@@ -23,7 +23,7 @@ const DiaryDetail = () => {
       alert('로그인 후 이용가능한 서비스입니다.');
       navigate("/login");
     } else {
-      let currentUserDiary = getSelectedDiary(key);
+      let currentUserDiary = getSelectedDiary(key, user);
 
       if (currentUserDiary !== null) {
         setSelectedDairy(currentUserDiary);
@@ -32,7 +32,7 @@ const DiaryDetail = () => {
         navigate("/");
       }
     }
-  }, [key, isAuthenticated, navigate]);
+  }, [key, isAuthenticated, navigate, user]);
 
 
   return (

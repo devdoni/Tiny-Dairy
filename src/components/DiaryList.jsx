@@ -22,7 +22,7 @@ const DairyList = () => {
       navigate("/login");
 
     } else {
-      let currentUserDiary = getCurrentUserDiary(user);
+      let currentUserDiary = getCurrentUserDiary(user.id);
 
       if (currentUserDiary !== null) {
         setDairyList(Object.entries(currentUserDiary));
@@ -39,7 +39,11 @@ const DairyList = () => {
   return (
     <div className="diary-list-wrapper">
       <div className="dairy-list-content">
-        <p className="diary-content-title">나의 일기 목록</p>
+        <p className="diary-content-title">
+          {
+            user.nickname ? `${user.nickname}의 일기 목록` : "나의 일기 목록"
+          }
+        </p>
         <ul className="diary-list-menu">
           <li
             className={`diary-list-menu-item ${selectedMenu === "all" ? "list-menu-item-selected" : ""}`}
