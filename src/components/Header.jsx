@@ -29,7 +29,7 @@ const Header = () => {
             {
               isAuthenticated ? (
                 <>
-                  <Link to="/">
+                  <Link to="/myinfo">
                     <li className="menu-item">내정보</li>
                   </Link>
                   <li className="menu-item" onClick={logoutBtnClickHandler}>로그아웃</li>

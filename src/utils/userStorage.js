@@ -130,13 +130,16 @@ export const getMyInfo = (uId) => {
 }
 
 // 나의 정보를 저장하는 함수
-export const setMyInfo = (uId, myInfo) => {
+export const setMyInfo = (newMyInfo) => {
   log.debug("[userStorage] setMyInfo()");
 
+  if (newMyInfo === null) return false;
+
   let UserInfos = getUserDB()
-  UserInfos[uId] = myInfo;
+  UserInfos[newMyInfo.id] = newMyInfo;
 
   setUserDB(UserInfos);
+  return true;
 }
 
 export const getCurrentUserDiary = (id) => {

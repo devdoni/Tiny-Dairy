@@ -1,10 +1,12 @@
 import {createContext, useCallback, useContext, useMemo, useState} from "react";
 import log from "loglevel";
+import {useNavigate} from "react-router-dom";
 
 const AuthCtx = createContext(null);
 
 export function AuthProvider({ children }) {
 
+  const navigate = useNavigate();
   const [user, setUser] = useState(() => {
     return sessionStorage.getItem("LOGGED_IN_SESSION_ID");
   });
@@ -19,7 +21,8 @@ export function AuthProvider({ children }) {
     log.debug("[AuthProvider] logout()");
     sessionStorage.removeItem("LOGGED_IN_SESSION_ID");
     setUser(null);
-  },[]);
+    navigate("/");
+  },[navigate]);
 
   const value = useMemo(() => ({
     user,

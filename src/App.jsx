@@ -9,22 +9,23 @@ import DiaryWrite from "./components/DiaryWrite";
 import DiaryList from "./components/DiaryList";
 import DiaryDetail from "./components/DiaryDetail";
 import {AuthProvider} from "./context/AuthContext";
+import MyInformation from "./components/MyInformation";
 
 const App = () => {
 
   return (
     <AuthProvider>
       <Header/>
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/signup" element={<SignUpForm />}></Route>
-        <Route path="/login" element={<LoginForm />}></Route>
+        <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/signup" element={<SignUpForm />} />
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/myinfo" element={<MyInformation />}/>
+            <Route path="/write" element={<DiaryWrite />} />
+            <Route path="/list" element={<DiaryList />} />
+            <Route path="detail/:key" element={<DiaryDetail />}/>
 
-          <Route path="/write" element={<DiaryWrite />} />
-          <Route path="/list" element={<DiaryList />}></Route>
-          <Route path="detail/:key" element={<DiaryDetail />}/>
-
-      </Routes>
+        </Routes>
       <Footer />
     </AuthProvider>
   );
