@@ -1,6 +1,6 @@
 /* ===== 푸터 ===== */
 footer {
-    background: var(--bg);
+    background: var(--header-footer-bg);
     bottom: 0;
     left: 0;
     width: 100%;

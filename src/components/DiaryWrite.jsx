@@ -13,6 +13,17 @@ const DiaryWrite = () => {
   const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
 
+  // 제목 작성 감지 Flag
+  const [titleWriteFlag, setTitleWriteFlag] = useState(false);
+  // 유저의 다이어리 정보를 저장하는 State
+  const [dairyValue, setDairyValue] = useState({
+    "mood": "",
+    "title": "",
+    "body": "",
+    "regDate": "",
+    "modDate": ""
+  });
+
   useEffect(() => {
     log.debug("[DiaryWrite] useEffect()");
 
@@ -23,17 +34,7 @@ const DiaryWrite = () => {
 
   }, [navigate, isAuthenticated]);
 
-  // 제목 작성 감지 Flag
-  const [titleWriteFlag, setTitleWriteFlag] = useState(false);
-
-  // 유저의 다이어리 정보를 저장하는 State
-  const [dairyValue, setDairyValue] = useState({
-    "mood": "",
-    "title": "",
-    "body": "",
-    "regDate": "",
-    "modDate": ""
-  });
+  if (!isAuthenticated) return null;
 
   // 일기 작성내용 체인지 핸들러
   const writeValueChangeHandle = (e) => {

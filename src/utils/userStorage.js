@@ -133,6 +133,37 @@ export function userDairySaved(dairyObj, user) {
   return true;
 }
 
+// 로컬스토리지 활용 비밀번호 변경 로직
+export const changePassword = async (id, currentPassword, newPassword, confirmNewPassword) => {
+  log.debug("[userStorage] changePassword()");
+
+  try {
+    if (!id || !currentPassword || !newPassword || !confirmNewPassword) return "INVALID_VALUE";
+    if (newPassword !== confirmNewPassword) return "MISMATCH";
+    if (newPassword.length < 8) return "WEAK_PASSWORD";
+
+    const raw = localStorage.getItem(USER_DB_IN_LOCAL_STORAGE);
+    if (!raw) return "INVALID_OBJECT";
+
+    const db = JSON.parse(raw);
+    const user = db[id];
+    if (!user?.password) return "INVALID_USER";
+
+    const ok = await bcrypt.compare(currentPassword, user.password);
+    if (!ok) return "INVALID_PASSWORD";
+
+    db[id].password = await bcrypt.hash(newPassword, 10);
+
+    localStorage.setItem(USER_DB_IN_LOCAL_STORAGE, JSON.stringify(db));
+    return "SUCCESS";
+
+  } catch (e) {
+    log.warn(`[userStorage] changePassword() Error - ${e}`);
+    return "UNKNOWN_ERROR";
+  }
+
+}
+
 // 나의 정보를 가져오는 함수
 export const getMyInfo = (uId) => {
   log.debug("[userStorage] getMyInfo()");
@@ -174,6 +205,7 @@ export const getUserNickname = (id) => {
 
 
 }
+
 export const getCurrentUserDiary = (id) => {
   log.debug("[userStorage] getCurrentUserDiary()");
 

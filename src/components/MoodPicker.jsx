@@ -35,7 +35,7 @@ const MoodPicker = ({ setDairyValue, dairyValue }) => {
     <div className={`mood-picker ${readOnly ? "mood-picker--readonly" : ""}`}>
       {!readOnly && <p className="mood-title">
         {
-          user.nickname ? `${user.nickname}님 오늘 하루 기분은 어땠나요?` : "오늘 하루 기분은 어땠나요?"
+          user?.nickname ? `${user?.nickname}님 오늘 하루 기분은 어땠나요?` : "오늘 하루 기분은 어땠나요?"
         }
       </p>
       }

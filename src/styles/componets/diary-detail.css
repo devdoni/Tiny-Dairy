@@ -10,24 +10,32 @@
 .diary-detail-container {
     max-width: 720px;
     width: 100%;
+    height: 700px;
     background: #fffdfd;
     border-radius: 1.5rem;
     padding: 2rem 3rem;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
     border: 1px solid #f3ece7;
+    display: flex;
+    flex-direction: column;
 }
 
-.diary-detail-title {
+.info-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.date-mood {
+    text-align: left;
     font-family: var(--font), sans-serif;
     font-size: 1.3rem;
     font-weight: 300;
     color: #5a4634;
-    margin-bottom: 1.5rem;
-    text-align: center;
+    width: max-content;
 }
 
 .diary-header {
-    border-top: 1px double #dadada;
+    border-bottom: 1px double #dadada;
     font-family: var(--font), sans-serif;
     margin-top: 20px;
     margin-left: 10px;
@@ -38,16 +46,38 @@
 }
 
 .diary-body {
+    --row: 2rem;
+    --line: 1px;
+    --baseline-fix: 0rem;
+
     font-size: 1.2rem;
     font-family: var(--font), sans-serif;
-    color: #000000;
-    background: #fdefe0;
-    padding: 1rem;
+    color: #000;
+
+    line-height: var(--row);
+    padding: 1.3rem 1rem 1rem;
+
+    background-image:
+            repeating-linear-gradient(
+                    to bottom,
+                    transparent 0,
+                    transparent calc(var(--row) - var(--line)),
+                    #000 calc(var(--row) - var(--line)),
+                    #000 var(--row)
+            ),
+            url("../../assets/img/diary-background.png");
+
+    background-size: 100% var(--row), cover;
+    background-repeat: repeat, no-repeat;
+    background-position: 0 var(--baseline-fix), center;
+
+    background-origin: content-box, padding-box;
+    background-clip: content-box, padding-box;
+
     border-radius: 1rem;
-    min-height: 30vh;
+    min-height: 40vh;
     margin-bottom: 20px;
 }
-
 .diary-footer {
     display: flex;
     justify-content: center;
@@ -56,8 +86,11 @@
 }
 
 .fix-button {
+    font-size: 1.2em;
     background-color: green;
 }
 .delete-button {
+    font-size: 1.2em;
     background-color: red;
 }
+

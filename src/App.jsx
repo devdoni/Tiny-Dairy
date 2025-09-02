@@ -10,6 +10,7 @@ import DiaryList from "./components/DiaryList";
 import DiaryDetail from "./components/DiaryDetail";
 import {AuthProvider} from "./context/AuthContext";
 import MyInformation from "./components/MyInformation";
+import PasswordChange from "./components/PasswordChange";
 
 const App = () => {
 
@@ -24,7 +25,7 @@ const App = () => {
             <Route path="/write" element={<DiaryWrite />} />
             <Route path="/list" element={<DiaryList />} />
             <Route path="detail/:key" element={<DiaryDetail />}/>
-
+            <Route path="/pwchange" element={<PasswordChange />} />
         </Routes>
       <Footer />
     </AuthProvider>

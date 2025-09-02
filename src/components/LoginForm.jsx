@@ -37,7 +37,7 @@ const LoginForm = () => {
 
     // 입력 데이터 Change 핸들러
     const loginInputChangeHandler = (e) => {
-        log.debug("[LoginForm] loginInputChageHandler()");
+        log.debug("[LoginForm] loginInputChangeHandler()");
 
         const { name, value } = e.target;
         setUserValues({ ...userValues, [name]: value });

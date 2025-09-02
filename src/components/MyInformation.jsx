@@ -105,7 +105,7 @@ const MyInformation = () => {
             </tr>
             <tr className="info-cell">
               <td>비밀번호</td>
-              <td><Button pill={false} type="primary" children={"비밀번호 변경"} /></td>
+              <td><Button pill={false} type="primary" children={"비밀번호 변경"} to="/pwchange"/></td>
             </tr>
             <tr className="info-cell">
               <td>가입일</td>

@@ -1,18 +1,15 @@
 /* ===== 헤더 레이아웃 ===== */
 .site-header{
-    background: var(--bg);
-    border-bottom: 1px solid #eee;
+    border-bottom: 2px solid #eee;
+    background-color: var(--header-footer-bg);
 }
 
 .header-container{
     max-width: var(--max-width);
-    height: 150px;
     margin: 0 auto;
-    padding: 0 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
 }
 
 /* ===== 로고 ===== */
@@ -20,11 +17,9 @@
 .logo{
     height: 150px;
     width: auto;
-    display: block;
 }
 
 /* ===== 메뉴 ===== */
-.menu-box{ display:flex; align-items:center; }
 .menu-bar{
     display: flex;
     gap: 40px;
@@ -44,17 +39,15 @@
     cursor: pointer;
     transition: background .15s ease, transform .05s ease;
 }
-.menu-item:hover{ background: var(--hover); }
-.menu-item:active{ transform: translateY(1px); }
+
+.menu-item:hover{
+    background: var(--menu-hover);
+    color: var(--hover-fg);
+}
+.menu-item:active{
+    transform: translateY(1px);
+}
 .menu-item:focus-visible{
     outline: 2px solid var(--brand);
     outline-offset: 2px;
-}
-
-
-/* ===== 반응형 ===== */
-@media (max-width: 640px){
-    .header-container{ height: 56px; }
-    .logo{ height: 30px; }
-    .menu-item{ padding: 8px 10px; font-size: 14px; }
 }

@@ -30,6 +30,8 @@ const DairyList = () => {
     }
   }, [isAuthenticated, navigate, user]);
 
+  if (!isAuthenticated) return null;
+
   const dairyItemClickHandle = (selectedDairy) => {
     log.debug("[DairyList] dairyItemClickHandle()");
 
@@ -41,7 +43,7 @@ const DairyList = () => {
       <div className="dairy-list-content">
         <p className="diary-content-title">
           {
-            user.nickname ? `${user.nickname}의 일기 목록` : "나의 일기 목록"
+            user?.nickname ? `${user?.nickname}의 일기 목록` : "나의 일기 목록"
           }
         </p>
         <ul className="diary-list-menu">

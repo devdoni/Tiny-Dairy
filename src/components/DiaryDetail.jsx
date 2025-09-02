@@ -6,6 +6,7 @@ import "../styles/componets/diary-detail.css";
 import Button from "./ui/Button";
 import log from "loglevel";
 import {useAuth} from "../context/AuthContext";
+import moods from "../data/mood.json";
 
 const DiaryDetail = () => {
 
@@ -34,19 +35,23 @@ const DiaryDetail = () => {
     }
   }, [key, isAuthenticated, navigate, user]);
 
+  const moodObj = moods.find((mood) => mood.value === Number(selectedDairy.mood))
 
   return (
     <div className="diary-detail-wrapper">
       <div className="diary-detail-container">
-        <p className="diary-detail-title">
-          {selectedDairy.regDate?.slice(0,10)} 이 날의 기분은 이랬어요!
-        </p>
-        <MoodPicker dairyValue={selectedDairy}/>
+        <div className="info-box">
+          <p className="date-mood">
+            Date. {selectedDairy.regDate?.slice(0, 10)}<br/>
+            Mood. {moodObj ? `${moodObj.emoji}${moodObj.label}` : "알 수 없음"}
+          </p>
+        </div>
+
         {
           selectedDairy ? (
             <>
               <div className="diary-header">
-                {selectedDairy.title}
+                제목: {selectedDairy.title}
               </div>
               <div className="diary-body">
                 {selectedDairy.body}

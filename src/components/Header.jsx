@@ -13,8 +13,8 @@ const Header = () => {
     logout();
     alert('로그아웃이 완료되었습니다.');
     navigate("/");
-
   }
+
   return (
     <header className="site-header">
       <div className="header-container">
@@ -39,7 +39,7 @@ const Header = () => {
               ) : (
                 <>
                   <Link to="/login"><li className="menu-item">로그인</li></Link>
-                <Link to="/signup"><li className="menu-item">회원가입</li></Link>
+                  <Link to="/signup"><li className="menu-item">회원가입</li></Link>
                 </>
               )
             }

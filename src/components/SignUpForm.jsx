@@ -6,7 +6,6 @@ import {Link, useNavigate} from "react-router-dom";
 import {signUpUser} from "../utils/userStorage";
 import log from "loglevel";
 
-
 const SignUpForm = () => {
 
     const [userValues, setUserValues] = useState({
@@ -20,7 +19,7 @@ const SignUpForm = () => {
     const [errors, SetErrors] = useState({});
     const [touched, setTouched] = useState({});
 
-    const validate = (v) => {
+    const signupFormValidate = (v) => {
         const e = {};
         if (!v.id) e.id = "아이디를 입력해주세요.";
         else if (v.id.length < 4) e.id = "4글자 이상 입력해주세요.";
@@ -37,23 +36,23 @@ const SignUpForm = () => {
         return e;
     }
 
-    const onChange = (e) => {
-        log.debug("[SignUpForm] onChange()");
+    const signupFormChangeHandler = (e) => {
+        log.debug("[SignUpForm] signupFormChangeHandler()");
         const { name, value } = e.target;
         setUserValues({ ...userValues, [name]: value });
     };
 
-    const onBlur = (e) => {
-        log.debug("[SignUpForm] onBlur()");
+    const signupFromBlurHandler = (e) => {
+        log.debug("[SignUpForm] signupFromBlurHandler()");
         const { name } = e.target;
         setTouched((s) => ({ ...s, [name]: e.target.value }));
-        SetErrors(validate({ ...userValues, [name]: e.target.value }));
+        SetErrors(signupFormValidate({ ...userValues, [name]: e.target.value }));
     }
 
-    const onSubmit = async (e) => {
-        log.debug("[SignUpForm] onSubmit()");
+    const signupFormSubmitHandler = async (e) => {
+        log.debug("[SignUpForm] signupFormSubmitHandler()");
         e.preventDefault();
-        const nextErrors = validate(userValues);
+        const nextErrors = signupFormValidate(userValues);
         SetErrors(nextErrors);
         setTouched({id: true, nickname: true, password: true, password_again: true});
 
@@ -82,15 +81,15 @@ const SignUpForm = () => {
             <div className="signup-container">
                 <div className='signup-content'>
                     <h4>회원가입</h4>
-                    <form name="signup" className="signup-form" onSubmit={onSubmit}>
+                    <form name="signup" className="signup-form" onSubmit={signupFormSubmitHandler}>
                         <Input
                           label="아이디"
                           name="id"
                           placeholder="아이디를 입력해주세요."
                           className={`signup-input ${touched.id && errors.id ? "invalid" : ""}`}
                           value={userValues.id}
-                          onChange={onChange}
-                          onBlur={onBlur}
+                          onChange={signupFormChangeHandler}
+                          onBlur={signupFromBlurHandler}
                           error={touched.id ? errors.id : ""}
                           required
                         />
@@ -100,8 +99,8 @@ const SignUpForm = () => {
                           placeholder="닉네임을 입력해주세요."
                           className={`signup-input ${touched.nickname && errors.nickname ? "invalid" : ""}`}
                           value={userValues.nickname}
-                          onChange={onChange}
-                          onBlur={onBlur}
+                          onChange={signupFormChangeHandler}
+                          onBlur={signupFromBlurHandler}
                           error={touched.nickname ? errors.nickname : ""}
                           required
                         />
@@ -112,8 +111,8 @@ const SignUpForm = () => {
                           placeholder="비밀번호를 입력해주세요."
                           className={`signup-input ${touched.password && errors.password ? "invalid" : ""}`}
                           value={userValues.password}
-                          onChange={onChange}
-                          onBlur={onBlur}
+                          onChange={signupFormChangeHandler}
+                          onBlur={signupFromBlurHandler}
                           error={touched.password ? errors.password : ""}
                           required
                         />
@@ -124,8 +123,8 @@ const SignUpForm = () => {
                           placeholder="비밀번호를 한번 더 입력해주세요."
                           className={`signup-input ${touched.password_again && errors.password_again ? "invalid" : ""}`}
                           value={userValues.password_again}
-                          onChange={onChange}
-                          onBlur={onBlur}
+                          onChange={signupFormChangeHandler}
+                          onBlur={signupFromBlurHandler}
                           error={touched.password_again ? errors.password_again : ""}
                           required
                         />
@@ -136,7 +135,7 @@ const SignUpForm = () => {
                           size="lg"
                           variant="primary"
                           className="signup-button"
-                          onClick={onSubmit}
+                          onClick={signupFormSubmitHandler}
                         />
                         <Link to="/login" className="login-nav"><h5>로그인</h5></Link>
                     </form>
