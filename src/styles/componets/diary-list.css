@@ -35,7 +35,6 @@
     background-color: rgba(9, 90, 255, 0.83);
     color: #fff;
 }
-
 /* 테이블 스타일 */
 .diary-list-table {
     font-family: var(--font), sans-serif;
@@ -60,14 +59,9 @@
     border-bottom: 1px double #dddddd;
     border-right: 1px double #dddddd;
 }
-
-.diary-list-body-item:nth-child(4) {
-    color: #2346ff;
+.diary-list-body-item:first-child {
+    width: 350px;
 }
-.diary-list-body-item:nth-child(5) {
-    color: #ff2323;
-}
-
 .diary-list-body-item:last-child {
     border-right: none;
 }

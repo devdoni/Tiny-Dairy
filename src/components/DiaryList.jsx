@@ -11,7 +11,7 @@ const DairyList = () => {
   const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
 
-  const [dairyList, setDairyList] = useState([]);
+  const [diary, setDiary] = useState([]);
   const [selectedMenu, setSelectedMenu] = useState("all");
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const DairyList = () => {
       let currentUserDiary = getCurrentUserDiary(user.id);
 
       if (currentUserDiary !== null) {
-        setDairyList(Object.entries(currentUserDiary));
+        setDiary(Object.entries(currentUserDiary));
       }
     }
   }, [isAuthenticated, navigate, user]);
@@ -64,25 +64,27 @@ const DairyList = () => {
               <th className="diary-list-header-item">일기 제목</th>
               <th className="diary-list-header-item">기분</th>
               <th className="diary-list-header-item">일기 작성일</th>
+              <th className="diary-list-header-item">일기 수정일</th>
 
             </tr>
             </thead>
             <tbody className="diary-list-body">
-            {dairyList.length > 0 ? (
-              dairyList.map(([id, dairy]) => {
-                  const moodObj = moods.find(m => m.value === dairy.mood);
+            {diary.length > 0 ? (
+              diary.map(([id, diary]) => {
+                  const moodObj = moods.find(m => m.value === diary.mood);
 
                   return (
                     <tr
                       key={id}
                       className="diary-list-body-tr"
-                      onClick={() => dairyItemClickHandle(dairy)}
+                      onClick={() => dairyItemClickHandle(diary)}
                     >
-                      <td className="diary-list-body-item">{dairy.title}</td>
+                      <td className="diary-list-body-item">{diary.title}</td>
                       <td className="diary-list-body-item">
                         {moodObj ? `${moodObj.emoji} ${moodObj.label}` : "알 수 없음"}
                       </td>
-                      <td className="diary-list-body-item">{dairy.regDate}</td>
+                      <td className="diary-list-body-item">{diary.regDate}</td>
+                      <td className="diary-list-body-item">{diary.modDate ? diary.modDate : "없음" }</td>
                     </tr>
                   );
                 })

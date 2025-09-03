@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import { getSelectedDiary } from "../utils/userStorage";
-import MoodPicker from "./MoodPicker";
+import {getSelectedDiary, userDiaryDelete} from "../utils/userStorage";
 import "../styles/componets/diary-detail.css";
 import Button from "./ui/Button";
 import log from "loglevel";
@@ -35,7 +34,34 @@ const DiaryDetail = () => {
     }
   }, [key, isAuthenticated, navigate, user]);
 
-  const moodObj = moods.find((mood) => mood.value === Number(selectedDairy.mood))
+  const moodObj = moods.find((mood) => mood.value === Number(selectedDairy.mood));
+
+  // 일기 수정 버튼 클릭핸들러
+  const diaryModifyBtnClickHandler = () => {
+    log.debug("[DiaryDetail] diaryModifyBtnClickHandler()");
+
+    navigate(`/modify/${selectedDairy.key}`);
+  }
+
+  // 일기 삭제 버튼 클릭핸들러
+  const diaryDeleteBtnClickHandler = () => {
+    log.debug("[DiaryDetail] diaryDeleteBtnClickHandler()");
+
+    if (window.confirm("정말 해당 일기를 삭제하시겠습니까?")) {
+
+      if (userDiaryDelete(user, key)) {
+        alert('일기 삭제가 완료되었습니다.');
+        navigate("/list");
+
+      } else {
+        alert('죄송합니다 일기 삭제중 오류가 발생했습니다.');
+        navigate("/list");
+      }
+
+    } else {
+      alert('요청이 취소되었습니다.');
+    }
+  }
 
   return (
     <div className="diary-detail-wrapper">
@@ -57,8 +83,16 @@ const DiaryDetail = () => {
                 {selectedDairy.body}
               </div>
               <div className="diary-footer">
-                <Button children="수정하기" className="fix-button" />
-                <Button children="삭제하기" className="delete-button"/>
+                <Button
+                  children="수정하기"
+                  className="fix-button"
+                  onClick={diaryModifyBtnClickHandler}
+                />
+                <Button
+                  children="삭제하기"
+                  className="delete-button"
+                  onClick={diaryDeleteBtnClickHandler}
+                />
               </div>
             </>
           ) : (

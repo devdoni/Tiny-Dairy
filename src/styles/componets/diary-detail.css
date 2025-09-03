@@ -2,22 +2,24 @@
 .diary-detail-wrapper {
     max-width: var(--max-width);
     height: var(--basic-height);
-    margin: 40px auto;
     display: flex;
     justify-content: center;
+    align-items: center;
+    margin: 20px auto;
 }
 
 .diary-detail-container {
     max-width: 720px;
     width: 100%;
-    height: 700px;
-    background: #fffdfd;
+    height: 750px;
+    max-height: 750px;
     border-radius: 1.5rem;
     padding: 2rem 3rem;
     box-shadow: 0 8px 24px rgba(0,0,0,0.08);
     border: 1px solid #f3ece7;
     display: flex;
     flex-direction: column;
+    background-image: url("../../assets/img/diary-background2.png");
 }
 
 .info-box {
@@ -32,10 +34,11 @@
     font-weight: 300;
     color: #5a4634;
     width: max-content;
+
 }
 
 .diary-header {
-    border-bottom: 1px double #dadada;
+    border-bottom: 1px double #000000;
     font-family: var(--font), sans-serif;
     margin-top: 20px;
     margin-left: 10px;
@@ -62,7 +65,6 @@
                     to bottom,
                     transparent 0,
                     transparent calc(var(--row) - var(--line)),
-                    #000 calc(var(--row) - var(--line)),
                     #000 var(--row)
             ),
             url("../../assets/img/diary-background.png");

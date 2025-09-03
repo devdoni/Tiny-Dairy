@@ -112,25 +112,60 @@ export async function loginUser (id, password) {
 }
 
 // 로컬스토리지 활용 일기 저장 로직
-export function userDairySaved(dairyObj, user) {
+export function userDairySaved(diary, user) {
   log.debug("[userStorage] userDairySaved()");
 
   let newDairyObj = getUserDairyDB();
 
-  if (newDairyObj === null && dairyObj === null) return false;
+  if (newDairyObj === null && diary === null) return false;
 
-  let key = getStringDateTime();
+  let key = diary.key ? diary.key : getStringDateTime();
   newDairyObj[user.id][key] = {
     "key": key,
-    "title": dairyObj.title,
-    "body": dairyObj.body,
-    "mood": dairyObj.mood,
-    "regDate": getDateTime(),
+    "title": diary.title,
+    "body": diary.body,
+    "mood": diary.mood,
+    "regDate": diary.regDate ? diary.regDate : getDateTime(),
+    "modDate": diary.regDate ? getDateTime() : null
   }
 
   setUserDiaryDB(newDairyObj);
 
   return true;
+}
+
+// 로컬스토리지 활용 일지 삭제 로직
+export function userDiaryDelete(user, key) {
+  log.debug("[userStorage] userDairyDelete()");
+
+  if (!key || !user) return false;
+
+  const diaryDB = getUserDairyDB();
+  if (diaryDB === null) return false;
+
+  const currentUserDiaryDB = diaryDB[user.id];
+  if (!currentUserDiaryDB || !currentUserDiaryDB[key]) return false;
+
+  delete currentUserDiaryDB[key];
+
+  try {
+    setUserDiaryDB(diaryDB);
+    return true;
+  } catch (e) {
+    log.warn(`[userStorage] userDairyDelete() Save Error - ${e}`);
+    return false;
+  }
+
+}
+
+export function deleteUserDairy (user, key) {
+  log.debug("[userStorage] deleteUserDairy()");
+
+  let diaryObj = getUserDairyDB();
+
+  if (diaryObj === null) return false;
+
+
 }
 
 // 로컬스토리지 활용 비밀번호 변경 로직
